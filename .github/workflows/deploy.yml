@@ -1,0 +1,29 @@
+name: Deploy Laravel to InfinityFree
+
+on:
+  push:
+    branches:
+      - main # Tự động chạy khi có code mới đẩy lên nhánh main
+
+jobs:
+  web-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy code từ GitHub
+        uses: actions/checkout@v4
+
+      - name: Cài đặt môi trường PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Cài đặt thư viện (vendor)
+        run: composer install --optimize-autoloader --no-dev
+
+      - name: Upload code lên InfinityFree qua FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /htdocs/ # Thư mục gốc trên InfinityFree
