@@ -15,7 +15,7 @@ jobs:
       - name: Cài đặt môi trường PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.3"
 
       - name: Cài đặt thư viện (vendor)
         run: composer install --optimize-autoloader --no-dev
